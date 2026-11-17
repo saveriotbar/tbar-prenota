@@ -44,6 +44,24 @@ h2{font-family:Fraunces,serif;font-weight:600;font-size:24px;margin:0 0 4px}
 .sotto{color:var(--muto);margin:0 0 14px;font-size:15px}
 .gruppo{margin:18px 0 8px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ambra)}
 
+/* MENU ☰ */
+.burger{position:absolute;top:14px;right:16px;z-index:3;width:46px;height:46px;border-radius:12px;border:1px solid rgba(243,237,226,.35);background:rgba(22,17,13,.6);color:var(--crema);font-size:22px;cursor:pointer;backdrop-filter:blur(4px)}
+.menu{position:fixed;inset:0;z-index:20;background:rgba(10,8,6,.7);display:flex;justify-content:flex-end}
+.menu nav{width:min(320px,86vw);height:100%;background:var(--bg2);border-left:1px solid var(--line);padding:18px 16px;display:flex;flex-direction:column;gap:8px}
+.menu .chiudi{align-self:flex-end;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:transparent;font-size:22px;cursor:pointer}
+.menu .voce{text-align:left;padding:16px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);cursor:pointer}
+.menu .voce b{display:block;font-size:17px}
+.menu .voce small{display:block;color:var(--muto);font-size:14px}
+
+/* SCHEDE TAVOLO / EVENTI */
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 6px}
+.tab{padding:12px 10px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);cursor:pointer;text-align:center;line-height:1.25}
+.tab b{display:block;font-size:16px}
+.tab small{display:block;color:var(--muto);font-size:12px;margin-top:2px}
+.tab[aria-selected="true"]{border-color:var(--ambra);background:var(--ambra);color:#1a130d}
+.tab[aria-selected="true"] small{color:#3a2a1a}
+#formati.scelto .tabs{display:none}
+
 /* CARD FORMAT */
 .formati{display:grid;gap:10px}
 .fmt{display:grid;grid-template-columns:76px 1fr auto;gap:12px;align-items:center;text-align:left;width:100%;padding:10px;border-radius:var(--r);border:1px solid var(--line);background:var(--bg2);cursor:pointer}
@@ -92,6 +110,7 @@ h2{font-family:Fraunces,serif;font-weight:600;font-size:24px;margin:0 0 4px}
 .chips.a-capo{flex-wrap:wrap;overflow:visible}
 .chip{flex:0 0 auto;min-width:64px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);cursor:pointer;text-align:center;line-height:1.2}
 .chip small{display:block;font-size:12px;color:var(--muto);text-transform:capitalize}
+.chip .mese{text-transform:lowercase}
 .chip b{font-size:17px;font-weight:700}
 .chip[aria-pressed="true"]{border-color:var(--ambra);background:var(--ambra);color:#1a130d}
 .chip[aria-pressed="true"] small{color:#3a2a1a}
@@ -105,6 +124,8 @@ h2{font-family:Fraunces,serif;font-weight:600;font-size:24px;margin:0 0 4px}
 .contatore button{width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--bg2);font-size:24px;cursor:pointer;line-height:1}
 .contatore button:disabled{opacity:.35;cursor:default}
 .contatore output{font-family:Fraunces,serif;font-size:34px;min-width:2ch;text-align:center}
+.contatore input{width:88px;height:56px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);font-family:Fraunces,serif;font-size:30px;text-align:center;color-scheme:dark;-moz-appearance:textfield}
+.contatore input::-webkit-inner-spin-button,.contatore input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 .riga{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
 .riga:last-child{border-bottom:0}
 .riga .l{font-size:15px}
@@ -157,12 +178,23 @@ footer p{margin:2px 0}
 
 <header class="hero">
   <img class="bg" src="img/hero.jpg" alt="" fetchpriority="high">
+  <button type="button" class="burger" id="apri-menu" aria-label="Menu" aria-expanded="false" aria-controls="menu">☰</button>
   <div class="wrap">
     <img class="logo" src="img/logo-light.png" alt="TBAR">
     <h1>Prenota il tuo momento</h1>
     <p>Via Ostiense 182/a, dalla colazione al dopocena. <b>Scegli, prenoti, è confermato.</b></p>
   </div>
 </header>
+
+<div class="menu nascosto" id="menu" role="dialog" aria-modal="true" aria-label="Menu">
+  <nav>
+    <button type="button" class="chiudi" id="chiudi-menu" aria-label="Chiudi">×</button>
+    <button type="button" class="voce" data-vai="tavolo"><b>Prenota un tavolo</b><small>colazione, pranzo, brunch, aperitivo, cena, dopocena</small></button>
+    <button type="button" class="voce" data-vai="festa"><b>Eventi e feste</b><small>lauree, compleanni, feste aziendali</small></button>
+    <button type="button" class="voce" data-vai="faq"><b>Domande frequenti</b><small>parcheggio, animali, pagamenti</small></button>
+    <a class="voce" href="tel:+39065740009" style="text-decoration:none;color:inherit"><b>Chiamaci</b><small>06-5740009</small></a>
+  </nav>
+</div>
 
 <main class="wrap" id="app">
   <noscript><p class="errore">Per prenotare da qui serve JavaScript. Puoi chiamarci allo 06-5740009.</p></noscript>
@@ -203,7 +235,7 @@ footer p{margin:2px 0}
       <div class="gruppo">Quanti siete</div>
       <div class="contatore">
         <button type="button" id="meno" aria-label="Una persona in meno">−</button>
-        <output id="persone" aria-live="polite">2</output>
+        <input id="persone" type="number" inputmode="numeric" pattern="[0-9]*" min="1" value="2" aria-label="Numero di persone">
         <button type="button" id="piu" aria-label="Una persona in più">+</button>
       </div>
       <p class="sotto" id="persone-nota" style="margin-top:8px"></p>
@@ -286,7 +318,8 @@ footer p{margin:2px 0}
   const maiusc = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
   let L = null;
-  const S = { format: null, giorno: null, ora: null, persone: 2, pack: null, bambini: { fino2: 0, fino8: 0, fino12: 0 } };
+  const S = { porta: "tavolo", format: null, giorno: null, ora: null, persone: 2, pack: null, bambini: { fino2: 0, fino8: 0, fino12: 0 } };
+  const PORTE = { tavolo: ["Un tavolo", "colazione, pranzo, brunch, aperitivo, cena, dopocena"], festa: ["Eventi e feste", "lauree, compleanni, feste aziendali"] };
 
   const hhmm = (m) => String(Math.floor(m / 60)).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0");
   const minuti = (s) => { const [h, m] = s.split(":").map(Number); return h * 60 + m; };
@@ -324,9 +357,9 @@ footer p{margin:2px 0}
   const prezzoCard = (f) => f.prezzo_da != null ? `a partire da ${f.prezzo_da} €` : esc(maiusc(f.prezzo));
   function disegnaFormati() {
     const box = $("formati");
-    box.innerHTML = "";
-    for (const [porta, titolo] of [["tavolo", "Un tavolo"], ["festa", "Feste, lauree e gruppi"]]) {
-      box.insertAdjacentHTML("beforeend", `<div class="gruppo">${titolo}</div>`);
+    box.innerHTML = `<div class="tabs" role="tablist">${Object.entries(PORTE).map(([k, [t, s]]) => `<button type="button" role="tab" class="tab" data-porta="${k}" aria-selected="${S.porta === k}"><b>${t}</b><small>${s}</small></button>`).join("")}</div>`;
+    box.querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () => { S.porta = b.dataset.porta; disegnaFormati(); }));
+    for (const porta of [S.porta]) {
       const griglia = document.createElement("div");
       griglia.className = "formati";
       for (const f of L.format.filter((x) => x.porta === porta)) {
@@ -375,21 +408,41 @@ footer p{margin:2px 0}
     </div>
     <button type="button" class="cambia" id="cambia">‹ Cambia momento</button>`;
     box.querySelectorAll(".pack:not(.fisso)").forEach((b) => b.addEventListener("click", () => { S.pack = b.dataset.pack; disegnaScheda(); riepilogo(); }));
-    $("cambia").addEventListener("click", () => {
-      S.format = null;
-      $("formati").classList.remove("scelto");
-      box.innerHTML = "";
-      $("format-sotto").classList.remove("nascosto");
-      ["passo-quando", "passo-extra", "passo-conferma"].forEach((id) => $(id).classList.add("nascosto"));
-      $("passo-format").scrollIntoView({ behavior: "smooth", block: "start" });
-    });
+    $("cambia").addEventListener("click", () => mostraLista(S.porta));
   }
+
+  // Torna all'elenco dei format di una porta (tavolo o eventi e feste).
+  function mostraLista(porta) {
+    S.porta = porta;
+    S.format = null;
+    $("formati").classList.remove("scelto");
+    $("scheda").innerHTML = "";
+    $("format-sotto").classList.remove("nascosto");
+    ["passo-quando", "passo-extra", "passo-conferma"].forEach((id) => $(id).classList.add("nascosto"));
+    disegnaFormati();
+    $("passo-format").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // ---------- MENU ☰ ----------
+  const menu = (aperto) => { $("menu").classList.toggle("nascosto", !aperto); $("apri-menu").setAttribute("aria-expanded", String(aperto)); };
+  $("apri-menu").addEventListener("click", () => menu(true));
+  $("chiudi-menu").addEventListener("click", () => menu(false));
+  $("menu").addEventListener("click", (e) => { if (e.target === $("menu")) menu(false); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") menu(false); });
+  document.querySelectorAll("#menu [data-vai]").forEach((b) => b.addEventListener("click", () => {
+    menu(false);
+    const v = b.dataset.vai;
+    if (v === "faq") { $("faq-comuni").scrollIntoView({ behavior: "smooth", block: "start" }); return; }
+    if ($("modulo").classList.contains("nascosto")) return;
+    if (L) mostraLista(v);
+  }));
 
   function scegliFormat(k, scorri) {
     const f = L.format.find((x) => x.chiave === k);
     if (!f) return;
     if (S.format !== k) S.pack = null;
     S.format = k;
+    S.porta = f.porta;
     $("formati").classList.add("scelto");
     $("format-sotto").classList.add("nascosto");
     S.persone = Math.min(Math.max(S.persone, f.min_persone), f.max_persone);
@@ -426,7 +479,8 @@ footer p{margin:2px 0}
     box.innerHTML = "";
     const oggi = oraRoma().giorno;
     let n = 0;
-    for (let i = 0; i < 28 && n < 14; i++) {
+    // Finestra scorrevole: almeno 30 date utili (fino a 90 giorni), anche a cavallo di due mesi.
+    for (let i = 0; i < Math.min(90, L.max_giorni_avanti) && n < 30; i++) {
       const iso = isoPiu(oggi, i);
       if (!slotDelGiorno(f, iso).length) continue;
       n++;
@@ -434,8 +488,8 @@ footer p{margin:2px 0}
       b.type = "button";
       b.className = "chip";
       b.dataset.g = iso;
-      const d = Number(iso.slice(8));
-      b.innerHTML = `<small>${i === 0 ? "oggi" : i === 1 ? "domani" : GG[dowDi(iso)]}</small><b>${d}</b>`;
+      const d = Number(iso.slice(8)), mese = MESI[Number(iso.slice(5, 7)) - 1];
+      b.innerHTML = `<small>${i === 0 ? "oggi" : i === 1 ? "domani" : GG[dowDi(iso)]}</small><b>${d}</b><small class="mese">${mese}</small>`;
       b.setAttribute("aria-label", etichettaGiorno(iso));
       b.setAttribute("aria-pressed", String(iso === S.giorno));
       b.addEventListener("click", () => scegliGiorno(iso));
@@ -484,7 +538,9 @@ footer p{margin:2px 0}
   // ---------- PERSONE ----------
   function aggiornaPersone() {
     const f = fmt();
-    $("persone").textContent = S.persone;
+    if (document.activeElement !== $("persone")) $("persone").value = S.persone;
+    $("persone").min = f.min_persone;
+    $("persone").max = f.max_persone;
     $("meno").disabled = S.persone <= f.min_persone;
     $("piu").disabled = S.persone >= f.max_persone;
     $("persone-nota").textContent = f.min_persone > 1 ? `Minimo ${f.min_persone} persone, fino a ${f.max_persone}.` : `Fino a ${f.max_persone} da qui. Siete di più? Chiamaci.`;
@@ -494,6 +550,17 @@ footer p{margin:2px 0}
   }
   $("meno").addEventListener("click", () => { S.persone--; aggiornaPersone(); });
   $("piu").addEventListener("click", () => { S.persone++; aggiornaPersone(); });
+  // Il numero si scrive anche a mano: mentre si scrive si accetta, uscendo si riporta nei limiti.
+  $("persone").addEventListener("input", () => {
+    const f = fmt(), n = Math.trunc(Number($("persone").value));
+    if (f && n >= f.min_persone && n <= f.max_persone) { S.persone = n; aggiornaPersone(); }
+  });
+  $("persone").addEventListener("change", () => {
+    const f = fmt(), n = Math.trunc(Number($("persone").value)) || f.min_persone;
+    S.persone = Math.min(Math.max(n, f.min_persone), f.max_persone);
+    $("persone").value = S.persone;
+    aggiornaPersone();
+  });
   function aggiornaBambini() {
     const tot = S.bambini.fino2 + S.bambini.fino8 + S.bambini.fino12;
     document.querySelectorAll("[data-b]").forEach((c) => {
