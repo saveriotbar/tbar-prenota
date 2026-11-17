@@ -62,6 +62,8 @@ h2{font-family:Fraunces,serif;font-weight:600;font-size:24px;margin:0 0 4px}
 .porta.aperta .porta-testa{border-color:var(--ambra);background:var(--bg3)}
 .porta .formati{margin-top:10px}
 #formati.scelto .porta{display:none}
+.fmt.chiama{text-decoration:none;color:inherit;border-style:dashed;border-color:#5a4a3a}
+.fmt .tel{width:76px;height:76px;border-radius:10px;display:grid;place-items:center;background:var(--bg3);color:var(--ambra);font-size:30px}
 
 /* CARD FORMAT */
 .formati{display:grid;gap:10px}
@@ -191,7 +193,8 @@ footer p{margin:2px 0}
   <nav>
     <button type="button" class="chiudi" id="chiudi-menu" aria-label="Chiudi">×</button>
     <button type="button" class="voce" data-vai="tavolo"><b>Prenota un tavolo</b><small>colazione, pranzo, brunch, aperitivo, cena, dopocena</small></button>
-    <button type="button" class="voce" data-vai="festa"><b>Eventi e feste</b><small>lauree, compleanni, feste aziendali</small></button>
+    <button type="button" class="voce" data-vai="feste"><b>Eventi e feste</b><small>compleanni, feste aziendali</small></button>
+    <button type="button" class="voce" data-vai="lauree"><b>Lauree di giorno</b><small>brindisi e pranzi dopo la discussione</small></button>
     <button type="button" class="voce" data-vai="faq"><b>Domande frequenti</b><small>parcheggio, animali, pagamenti</small></button>
     <a class="voce" href="tel:+39065740009" style="text-decoration:none;color:inherit"><b>Chiamaci</b><small>06-5740009</small></a>
   </nav>
@@ -320,7 +323,7 @@ footer p{margin:2px 0}
 
   let L = null;
   const S = { porta: "tavolo", aperta: null, format: null, giorno: null, ora: null, persone: 2, pack: null, bambini: { fino2: 0, fino8: 0, fino12: 0 } };
-  const PORTE = { tavolo: ["Un tavolo", "colazione, pranzo, brunch, aperitivo, cena, dopocena"], festa: ["Eventi e feste", "lauree, compleanni, feste aziendali"] };
+  // Le voci (tavolo, feste, lauree) arrivano dal listino: L.porte.
 
   const hhmm = (m) => String(Math.floor(m / 60)).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0");
   const minuti = (s) => { const [h, m] = s.split(":").map(Number); return h * 60 + m; };
@@ -360,7 +363,8 @@ footer p{margin:2px 0}
     // Fisarmonica (Saverio 17/11): due voci a tutta larghezza, una sola aperta alla volta.
     const box = $("formati");
     box.innerHTML = "";
-    for (const [porta, [titolo, sotto]] of Object.entries(PORTE)) {
+    for (const { chiave: porta, titolo, sotto, chiama, ordine } of L.porte) {
+      const pos = (k) => (ordine && ordine.includes(k) ? ordine.indexOf(k) : 99);
       const aperta = S.aperta === porta;
       const sez = document.createElement("div");
       sez.className = "porta" + (aperta ? " aperta" : "");
@@ -373,14 +377,16 @@ footer p{margin:2px 0}
       box.appendChild(sez);
       const griglia = document.createElement("div");
       griglia.className = "formati" + (aperta ? "" : " nascosto");
-      for (const f of L.format.filter((x) => x.porta === porta)) {
+      for (const f of L.format.filter((x) => x.porte.includes(porta)).sort((a, b) => pos(a.chiave) - pos(b.chiave))) {
         const b = document.createElement("button");
         b.type = "button";
         b.className = "fmt";
         b.innerHTML = `<img src="img/${esc(f.chiave)}.jpg" alt="" loading="lazy"><span><span class="n">${esc(f.nome)}</span><span class="q">${quandoTesto(f)}${f.min_persone > 1 ? ` · min ${f.min_persone}` : ""}</span><span class="p">${prezzoCard(f)}</span></span><span class="freccia" aria-hidden="true">›</span>`;
-        b.addEventListener("click", () => scegliFormat(f.chiave, true));
+        b.addEventListener("click", () => scegliFormat(f.chiave, true, porta));
         griglia.appendChild(b);
       }
+      // Su misura (buffet privato, serata): non si prenota online, si chiama.
+      if (chiama) griglia.insertAdjacentHTML("beforeend", `<a class="fmt chiama" href="tel:+393476012993"><span class="tel" aria-hidden="true">✆</span><span><span class="n">Su misura</span><span class="q">${esc(chiama)}</span><span class="p">Chiama 347-6012993</span></span><span class="freccia" aria-hidden="true">›</span></a>`);
       sez.appendChild(griglia);
     }
   }
@@ -405,7 +411,7 @@ footer p{margin:2px 0}
           return `<button type="button" role="radio" class="pack${fisso ? " fisso" : ""}${spento ? " spento" : ""}" data-pack="${esc(p.chiave)}" aria-checked="${on}"${fisso ? ' tabindex="-1"' : ""}><span class="pallino"></span><span>${esc(p.nome)}<small>${esc(p.descrizione)}</small></span><span class="pz">${p.prezzo_persona != null ? p.prezzo_persona + " €" : ""}</span></button>`;
         }).join("") + `</div>`;
     }
-    const faq = [...f.faq, ...(f.porta === "festa" ? L.faq_feste.filter((q) => !f.faq.some((x) => x.d === q.d)) : [])];
+    const faq = [...f.faq, ...(S.porta !== "tavolo" ? L.faq_feste.filter((q) => !f.faq.some((x) => x.d === q.d)) : [])];
     box.innerHTML = `<div class="scheda">
       <div class="foto"><img src="img/${esc(f.chiave)}.jpg" alt=""><div class="titolo"><h3>${esc(f.nome)}</h3></div></div>
       <div class="corpo">
@@ -449,22 +455,25 @@ footer p{margin:2px 0}
     if (L) mostraLista(v);
   }));
 
-  function scegliFormat(k, scorri) {
+  function scegliFormat(k, scorri, porta) {
     const f = L.format.find((x) => x.chiave === k);
     if (!f) return;
     if (S.format !== k) S.pack = null;
     S.format = k;
-    S.porta = f.porta;
-    S.aperta = f.porta;
+    // La voce da cui si è entrati: quella toccata, o quella aperta, o la prima del format.
+    S.porta = porta && f.porte.includes(porta) ? porta : f.porte.includes(S.aperta) ? S.aperta : f.porte[0];
+    S.aperta = S.porta;
+    if (S.porta === "lauree" && !$("occasione").value) $("occasione").value = "Laurea";
+    if (S.porta === "tavolo") $("occasione").value = ""; // per un tavolo l'occasione non si chiede
     $("formati").classList.add("scelto");
     $("format-sotto").classList.add("nascosto");
     S.persone = Math.min(Math.max(S.persone, f.min_persone), f.max_persone);
     $("extra-bambini").classList.toggle("nascosto", !f.extra.includes("bambini"));
     $("extra-torta").classList.toggle("nascosto", !f.extra.includes("torta"));
-    $("extra-occasione").classList.toggle("nascosto", f.porta !== "festa");
+    $("extra-occasione").classList.toggle("nascosto", S.porta === "tavolo");
     if (!f.extra.includes("bambini")) { S.bambini = { fino2: 0, fino8: 0, fino12: 0 }; aggiornaBambini(); }
     if (!f.extra.includes("torta")) document.querySelector('input[name="torta"][value=""]').checked = true;
-    $("extra-elenco").textContent = [f.extra.includes("bambini") && "bambini", f.extra.includes("torta") && "torta", f.porta === "festa" && "occasione", "una nota per la sala"].filter(Boolean).join(", ");
+    $("extra-elenco").textContent = [f.extra.includes("bambini") && "bambini", f.extra.includes("torta") && "torta", S.porta !== "tavolo" && "occasione", "una nota per la sala"].filter(Boolean).join(", ");
     ["passo-quando", "passo-extra", "passo-conferma"].forEach((id) => $(id).classList.remove("nascosto"));
     if (S.giorno && !f.giorni.includes(dowDi(S.giorno))) S.giorno = null;
     disegnaScheda();
@@ -709,11 +718,15 @@ footer p{margin:2px 0}
       const p = Number(qs.get("persone"));
       if (p > 0) S.persone = p;
       const k = qs.get("format");
+      const porta = L.porte.some((p) => p.chiave === qs.get("porta")) ? qs.get("porta") : null;
       if (k && L.format.some((f) => f.chiave === k)) {
         if (qs.get("pack")) S.pack = qs.get("pack");
-        scegliFormat(k, false);
+        scegliFormat(k, false, porta);
         const g = qs.get("giorno");
         if (g && /^\d{4}-\d{2}-\d{2}$/.test(g)) scegliGiorno(g);
+      } else if (porta) {
+        S.aperta = porta; // ?porta=lauree apre direttamente quella voce
+        disegnaFormati();
       }
     })
     .catch(() => {
