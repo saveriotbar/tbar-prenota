@@ -79,7 +79,8 @@ h2{font-family:Fraunces,serif;font-weight:600;font-size:24px;margin:0 0 4px}
 .scheda{border:1px solid var(--ambra);border-radius:var(--r);background:var(--bg2);overflow:hidden}
 .scheda .foto{position:relative}
 .scheda .foto img{width:100%;height:170px;object-fit:cover}
-.scheda .foto::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(31,25,20,.95))}
+.scheda .foto::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(22,17,13,.45) 0%,transparent 30%,transparent 45%,rgba(31,25,20,.95))}
+.scheda .foto img{height:190px}
 .scheda .titolo{position:absolute;left:14px;right:14px;bottom:10px;z-index:1}
 .scheda .titolo h3{margin:0;font-family:Fraunces,serif;font-size:26px;font-weight:600;line-height:1.1}
 .scheda .corpo{padding:14px}
@@ -106,7 +107,10 @@ h2{font-family:Fraunces,serif;font-weight:600;font-size:24px;margin:0 0 4px}
 .faq summary::after{content:"+";position:absolute;right:2px;top:9px;font-size:20px;color:var(--ambra)}
 .faq details[open] summary::after{content:"−"}
 .faq details p{margin:0 0 12px;color:var(--muto);font-size:15px}
-.cambia{display:block;margin:12px 0 0;background:none;border:0;color:var(--ambra);text-decoration:underline;cursor:pointer;padding:6px 0;font-size:15px}
+/* "Cambia momento": pillola in testa alla scheda, sopra la foto (Saverio 17/11: in coda non lo trovava nessuno) */
+.cambia{position:absolute;top:12px;left:12px;z-index:2;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px 0 12px;border-radius:999px;border:1px solid rgba(243,237,226,.35);background:rgba(22,17,13,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--crema);font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35);transition:background .15s,border-color .15s}
+.cambia span{font-size:22px;line-height:1;color:var(--ambra);margin-top:-2px}
+.cambia:hover,.cambia:active{background:rgba(22,17,13,.9);border-color:var(--ambra)}
 
 /* CHIP */
 .chips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 10px;-webkit-overflow-scrolling:touch}
@@ -413,7 +417,7 @@ footer p{margin:2px 0}
     }
     const faq = [...f.faq, ...(S.porta !== "tavolo" ? L.faq_feste.filter((q) => !f.faq.some((x) => x.d === q.d)) : [])];
     box.innerHTML = `<div class="scheda">
-      <div class="foto"><img src="img/${esc(f.chiave)}.jpg" alt=""><div class="titolo"><h3>${esc(f.nome)}</h3></div></div>
+      <div class="foto"><img src="img/${esc(f.chiave)}.jpg" alt=""><button type="button" class="cambia" id="cambia"><span aria-hidden="true">‹</span> Cambia momento</button><div class="titolo"><h3>${esc(f.nome)}</h3></div></div>
       <div class="corpo">
         ${prezzo}
         <p class="desc">${esc(f.descrizione)}${f.min_persone > 1 && !/minimo/i.test(f.descrizione) ?` Minimo ${f.min_persone} persone.` : ""}</p>
@@ -422,8 +426,7 @@ footer p{margin:2px 0}
         ${packs}
         ${faq.length ? `<h4>Domande frequenti</h4><div class="faq">${faqHtml(faq)}</div>` : ""}
       </div>
-    </div>
-    <button type="button" class="cambia" id="cambia">‹ Cambia momento</button>`;
+    </div>`;
     box.querySelectorAll(".pack:not(.fisso)").forEach((b) => b.addEventListener("click", () => { S.pack = b.dataset.pack; disegnaScheda(); riepilogo(); }));
     $("cambia").addEventListener("click", () => mostraLista(S.porta));
   }
