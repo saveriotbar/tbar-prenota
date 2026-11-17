@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prenota · TBAR Ostiense</title>
+<meta name="description" content="Prenota a TBAR, Via Ostiense 182/a a Roma: brunch, aperitivo, cena, dopocena, lauree e feste. Conferma subito.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#16110D">
+<meta property="og:title" content="Prenota a TBAR · Time to be">
+<meta property="og:description" content="Brunch, aperitivo, cena, dopocena, lauree e feste in Via Ostiense 182/a. Conferma subito.">
+<meta property="og:image" content="img/hero.jpg">
+<link rel="icon" href="img/avatar-tbar.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#16110D; --bg2:#1F1914; --bg3:#2A221B; --line:#3A3027;
+  --crema:#F3EDE2; --muto:#B9AE9E; --ambra:#D99A4E; --ambra2:#C8893A; --rosso:#E07A5F;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--crema);font-family:Manrope,system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-text-size-adjust:100%}
+img{display:block;max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--ambra)}
+.wrap{max-width:620px;margin:0 auto;padding:0 16px}
+.nascosto{display:none!important}
+
+/* HERO */
+.hero{position:relative;min-height:220px;display:flex;align-items:flex-end;overflow:hidden}
+.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.9) brightness(.55)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(22,17,13,.1) 0%,rgba(22,17,13,.55) 55%,var(--bg) 100%)}
+.hero .wrap{position:relative;z-index:1;padding-bottom:18px;width:100%}
+.logo{width:130px;background:#F3EDE2;padding:5px 9px;border-radius:10px;margin-bottom:14px}
+h1{font-family:Fraunces,serif;font-weight:600;font-size:clamp(32px,9vw,46px);line-height:1.05;margin:0 0 6px;letter-spacing:-.01em}
+.hero p{margin:0;color:var(--muto);max-width:30em}
+.hero p b{color:var(--crema);font-weight:500}
+
+/* SEZIONI */
+section.passo{padding:24px 0 4px}
+h2{font-family:Fraunces,serif;font-weight:600;font-size:24px;margin:0 0 4px}
+.sotto{color:var(--muto);margin:0 0 14px;font-size:15px}
+.gruppo{margin:18px 0 8px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ambra)}
+
+/* CARD FORMAT */
+.formati{display:grid;gap:10px}
+.fmt{display:grid;grid-template-columns:76px 1fr auto;gap:12px;align-items:center;text-align:left;width:100%;padding:10px;border-radius:var(--r);border:1px solid var(--line);background:var(--bg2);cursor:pointer}
+.fmt img{width:76px;height:76px;object-fit:cover;border-radius:10px}
+.fmt .n{font-weight:700;font-size:16px;display:block;line-height:1.25}
+.fmt .q{font-size:13px;color:var(--muto);display:block}
+.fmt .p{font-size:14px;color:var(--ambra);display:block;margin-top:2px}
+.fmt .freccia{color:var(--muto);font-size:20px;padding-right:4px}
+#formati.scelto .fmt,#formati.scelto .gruppo{display:none}
+
+/* SCHEDA DEL FORMAT */
+.scheda{border:1px solid var(--ambra);border-radius:var(--r);background:var(--bg2);overflow:hidden}
+.scheda .foto{position:relative}
+.scheda .foto img{width:100%;height:170px;object-fit:cover}
+.scheda .foto::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(31,25,20,.95))}
+.scheda .titolo{position:absolute;left:14px;right:14px;bottom:10px;z-index:1}
+.scheda .titolo h3{margin:0;font-family:Fraunces,serif;font-size:26px;font-weight:600;line-height:1.1}
+.scheda .corpo{padding:14px}
+.prezzo-grande{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin:0 0 6px}
+.prezzo-grande b{font-family:Fraunces,serif;font-size:30px;color:var(--ambra);font-weight:600;line-height:1}
+.prezzo-grande span{color:var(--muto);font-size:14px}
+.scheda .desc{margin:0 0 12px;color:var(--crema)}
+.scheda h4{margin:16px 0 8px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ambra);font-weight:500}
+.comprende{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.comprende li{padding-left:22px;position:relative;font-size:15px}
+.comprende li::before{content:"✓";position:absolute;left:0;color:var(--ambra);font-weight:700}
+.packs{display:grid;gap:8px}
+.pack{display:flex;gap:12px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);cursor:pointer;text-align:left;width:100%}
+.pack .pz{margin-left:auto;font-weight:700;color:var(--ambra);white-space:nowrap}
+.pack small{display:block;color:var(--muto);font-size:13px}
+.pack[aria-checked="true"]{border-color:var(--ambra);background:var(--bg3)}
+.pack .pallino{width:18px;height:18px;border-radius:50%;border:2px solid var(--muto);flex:0 0 auto;margin-top:2px}
+.pack[aria-checked="true"] .pallino{border-color:var(--ambra);background:radial-gradient(var(--ambra) 45%,transparent 50%)}
+.pack.fisso{cursor:default}
+.pack.fisso.spento{opacity:.45}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:12px 26px 12px 0;position:relative;font-weight:500;font-size:15px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:2px;top:9px;font-size:20px;color:var(--ambra)}
+.faq details[open] summary::after{content:"−"}
+.faq details p{margin:0 0 12px;color:var(--muto);font-size:15px}
+.cambia{display:block;margin:12px 0 0;background:none;border:0;color:var(--ambra);text-decoration:underline;cursor:pointer;padding:6px 0;font-size:15px}
+
+/* CHIP */
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 10px;-webkit-overflow-scrolling:touch}
+.chips.a-capo{flex-wrap:wrap;overflow:visible}
+.chip{flex:0 0 auto;min-width:64px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);cursor:pointer;text-align:center;line-height:1.2}
+.chip small{display:block;font-size:12px;color:var(--muto);text-transform:capitalize}
+.chip b{font-size:17px;font-weight:700}
+.chip[aria-pressed="true"]{border-color:var(--ambra);background:var(--ambra);color:#1a130d}
+.chip[aria-pressed="true"] small{color:#3a2a1a}
+.altra{display:flex;gap:10px;align-items:center;margin-top:4px;font-size:15px;color:var(--muto)}
+.altra input{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;color-scheme:dark}
+.avviso{margin:10px 0 0;font-size:14px;color:var(--rosso)}
+.nota-ora{margin:6px 0 0;font-size:14px;color:var(--muto)}
+
+/* PERSONE */
+.contatore{display:flex;align-items:center;gap:14px}
+.contatore button{width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--bg2);font-size:24px;cursor:pointer;line-height:1}
+.contatore button:disabled{opacity:.35;cursor:default}
+.contatore output{font-family:Fraunces,serif;font-size:34px;min-width:2ch;text-align:center}
+.riga{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.riga:last-child{border-bottom:0}
+.riga .l{font-size:15px}
+.riga .l small{display:block;color:var(--muto);font-size:13px}
+.contatore.piccolo button{width:38px;height:38px;font-size:20px}
+.contatore.piccolo output{font-size:22px}
+
+/* EXTRA */
+.apri-extra{width:100%;text-align:left;padding:14px 16px;border-radius:var(--r);border:1px dashed #5a4a3a;background:transparent;cursor:pointer}
+.apri-extra b{display:block;color:var(--ambra);font-size:16px}
+.apri-extra small{display:block;color:var(--muto);font-size:14px;margin-top:2px}
+.scelte{display:grid;gap:8px}
+.scelta{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg2);cursor:pointer}
+.scelta input{margin-top:4px;accent-color:var(--ambra)}
+.scelta small{display:block;color:var(--muto);font-size:13px}
+
+/* CAMPI */
+.campi{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+.campo{display:grid;gap:6px}
+.campo.largo{grid-column:1/-1}
+.campo label{font-size:14px;color:var(--muto)}
+.campo input,.campo select,.campo textarea{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px;font-size:16px;color-scheme:dark}
+.campo textarea{min-height:76px;resize:vertical}
+input:focus,select:focus,textarea:focus,.chip:focus-visible,.fmt:focus-visible,.pack:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--ambra);outline-offset:2px}
+.trappola{position:absolute;left:-5000px;width:1px;height:1px;overflow:hidden}
+
+/* RIEPILOGO */
+.riepilogo{margin:22px 0 0;padding:18px;border-radius:var(--r);background:var(--bg3);border:1px solid var(--line)}
+.riepilogo h3{margin:0 0 6px;font-family:Fraunces,serif;font-size:20px;font-weight:600}
+.riepilogo p{margin:2px 0;color:var(--muto);font-size:15px}
+.riepilogo .stima{color:var(--crema);margin-top:8px}
+.vai{margin-top:16px;width:100%;padding:16px;border:0;border-radius:12px;background:var(--ambra);color:#1a130d;font-weight:700;font-size:17px;cursor:pointer}
+.vai:disabled{opacity:.5;cursor:default}
+.privacy{font-size:13px;color:var(--muto);margin:10px 0 0}
+.errore{margin:12px 0 0;padding:12px 14px;border-radius:10px;background:#3a1f18;color:#ffd9cc;font-size:15px}
+
+.fatto{padding:36px 0 10px}
+.fatto h2{font-size:34px;line-height:1.1;margin-bottom:12px}
+.fatto .box{margin:18px 0;padding:18px;border-radius:var(--r);background:var(--bg3);border:1px solid var(--line)}
+.fatto .box p{margin:3px 0}
+
+.faq-comuni{padding:30px 0 0}
+footer{padding:30px 0 calc(30px + env(safe-area-inset-bottom));color:var(--muto);font-size:14px}
+footer p{margin:2px 0}
+@media (min-width:640px){.formati{grid-template-columns:1fr 1fr}.hero{min-height:320px}.scheda .foto img{height:240px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <img class="bg" src="img/hero.jpg" alt="" fetchpriority="high">
+  <div class="wrap">
+    <img class="logo" src="img/logo-light.png" alt="TBAR">
+    <h1>Prenota il tuo momento</h1>
+    <p>Via Ostiense 182/a, dalla colazione al dopocena. <b>Scegli, prenoti, è confermato.</b></p>
+  </div>
+</header>
+
+<main class="wrap" id="app">
+  <noscript><p class="errore">Per prenotare da qui serve JavaScript. Puoi chiamarci allo 06-5740009.</p></noscript>
+
+  <form id="modulo" novalidate>
+    <section class="passo" id="passo-chi">
+      <h2>A chi teniamo il tavolo</h2>
+      <p class="sotto">Quattro righe e poi scegli il momento.</p>
+      <div class="campi">
+        <div class="campo"><label for="nome">Nome</label><input id="nome" autocomplete="given-name" maxlength="60" required></div>
+        <div class="campo"><label for="cognome">Cognome</label><input id="cognome" autocomplete="family-name" maxlength="60" required></div>
+        <div class="campo largo"><label for="cellulare">Cellulare</label><input id="cellulare" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" required placeholder="333 1234567"></div>
+        <div class="campo largo"><label for="email">Email</label><input id="email" type="email" inputmode="email" autocomplete="email" maxlength="120" placeholder="nome@esempio.it"></div>
+      </div>
+      <div class="trappola" aria-hidden="true"><label>Sito <input id="sito" tabindex="-1" autocomplete="off"></label></div>
+    </section>
+
+    <section class="passo" id="passo-format">
+      <h2>Che momento è?</h2>
+      <p class="sotto" id="format-sotto">Tocca un format: prezzo, cosa comprende e domande frequenti sono dentro.</p>
+      <div id="formati"><p class="sotto">Un attimo, apriamo la carta…</p></div>
+      <div id="scheda"></div>
+    </section>
+
+    <section class="passo nascosto" id="passo-quando">
+      <h2>Quando</h2>
+      <p class="sotto" id="giorni-nota"></p>
+      <div class="chips" id="giorni" role="group" aria-label="Giorno"></div>
+      <div class="altra"><label for="altra-data">Più avanti:</label><input type="date" id="altra-data"></div>
+      <p class="avviso nascosto" id="avviso-giorno"></p>
+
+      <div id="blocco-ore" class="nascosto">
+        <div class="gruppo">A che ora</div>
+        <div class="chips a-capo" id="ore" role="group" aria-label="Orario"></div>
+        <p class="nota-ora nascosto" id="nota-ora"></p>
+      </div>
+
+      <div class="gruppo">Quanti siete</div>
+      <div class="contatore">
+        <button type="button" id="meno" aria-label="Una persona in meno">−</button>
+        <output id="persone" aria-live="polite">2</output>
+        <button type="button" id="piu" aria-label="Una persona in più">+</button>
+      </div>
+      <p class="sotto" id="persone-nota" style="margin-top:8px"></p>
+    </section>
+
+    <section class="passo nascosto" id="passo-extra">
+      <button type="button" class="apri-extra" id="apri-extra" aria-expanded="false" aria-controls="extra-corpo">
+        <b>+ Aggiungi un extra</b><small id="extra-elenco"></small>
+      </button>
+      <div id="extra-corpo" class="nascosto">
+        <div id="extra-bambini" class="nascosto">
+          <div class="gruppo">Di cui bambini</div>
+          <div class="riga"><div class="l">Fino a 2 anni<small>gratis, ma segnalali: serve per la sala</small></div><div class="contatore piccolo" data-b="fino2"><button type="button" aria-label="meno">−</button><output>0</output><button type="button" aria-label="più">+</button></div></div>
+          <div class="riga"><div class="l">Fino a 8 anni compiuti<small>12 €</small></div><div class="contatore piccolo" data-b="fino8"><button type="button" aria-label="meno">−</button><output>0</output><button type="button" aria-label="più">+</button></div></div>
+          <div class="riga"><div class="l">Fino a 12 anni<small>15 €</small></div><div class="contatore piccolo" data-b="fino12"><button type="button" aria-label="meno">−</button><output>0</output><button type="button" aria-label="più">+</button></div></div>
+        </div>
+
+        <div id="extra-torta" class="nascosto">
+          <div class="gruppo">La torta</div>
+          <div class="scelte">
+            <label class="scelta"><input type="radio" name="torta" value="" checked><span>Niente torta</span></label>
+            <label class="scelta"><input type="radio" name="torta" value="casa"><span>La torta della casa<small>5 € a persona</small></span></label>
+            <label class="scelta"><input type="radio" name="torta" value="esterna"><span>La porto io<small>sporzionamento 2 € a persona, la tagliamo noi</small></span></label>
+          </div>
+        </div>
+
+        <div id="extra-occasione" class="nascosto">
+          <div class="gruppo">L'occasione</div>
+          <div class="campo"><select id="occasione" aria-label="Occasione">
+            <option value="">Nessuna in particolare</option>
+            <option>Compleanno</option><option>Laurea</option><option>Lavoro</option>
+            <option>Addio al celibato o nubilato</option><option>Anniversario</option><option>Altro</option>
+          </select></div>
+        </div>
+
+        <div class="gruppo">Una nota per la sala</div>
+        <div class="campo"><textarea id="nota" maxlength="300" aria-label="Nota per la sala" placeholder="Allergie, un seggiolone, un tavolo in terrazza…"></textarea></div>
+      </div>
+    </section>
+
+    <section class="passo nascosto" id="passo-conferma">
+      <div class="riepilogo">
+        <h3 id="r-titolo"></h3>
+        <p id="r-quando"></p>
+        <p id="r-extra"></p>
+        <p class="stima" id="r-stima"></p>
+        <button class="vai" id="vai" type="submit">Conferma la prenotazione</button>
+        <p class="privacy">Nome e numero li usiamo solo per questa prenotazione. Ogni format prevede una consumazione minima.</p>
+        <div class="errore nascosto" id="errore" role="alert"></div>
+      </div>
+    </section>
+  </form>
+
+  <div id="fatto" class="fatto nascosto" aria-live="polite"></div>
+
+  <section class="faq-comuni faq" id="faq-comuni"></section>
+</main>
+
+<footer class="wrap">
+  <p><b style="color:var(--crema)">TBAR</b> · Via Ostiense 182/a, Roma</p>
+  <p><a href="tel:+39065740009">06-5740009</a> · <a href="tel:+393333658561">333-3658561</a> · aperto tutti i giorni dalle 8</p>
+</footer>
+
+<script>
+(() => {
+  "use strict";
+  // In locale si prova contro il finto server (prova-locale.mjs), mai contro la produzione.
+  const API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname)
+    ? `${location.origin}/prenota`
+    : "https://mwcoltqmmtvohogptvwk.supabase.co/functions/v1/prenota";
+  const LOCALE = "TBAR";
+  const qs = new URLSearchParams(location.search);
+  const DA = (qs.get("da") || "diretto").toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 30) || "diretto";
+  const aperto = Date.now();
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const GG = ["dom", "lun", "mar", "mer", "gio", "ven", "sab"];
+  const GG_LUNGO = ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"];
+  const MESI = ["gen", "feb", "mar", "apr", "mag", "giu", "lug", "ago", "set", "ott", "nov", "dic"];
+  const maiusc = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
+  let L = null;
+  const S = { format: null, giorno: null, ora: null, persone: 2, pack: null, bambini: { fino2: 0, fino8: 0, fino12: 0 } };
+
+  const hhmm = (m) => String(Math.floor(m / 60)).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0");
+  const minuti = (s) => { const [h, m] = s.split(":").map(Number); return h * 60 + m; };
+  function oraRoma() {
+    const p = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Rome", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }).formatToParts(new Date());
+    const g = (t) => p.find((x) => x.type === t).value;
+    return { giorno: `${g("year")}-${g("month")}-${g("day")}`, min: (Number(g("hour")) % 24) * 60 + Number(g("minute")) };
+  }
+  const dowDi = (iso) => { const [y, m, d] = iso.split("-").map(Number); return new Date(Date.UTC(y, m - 1, d)).getUTCDay(); };
+  const isoPiu = (iso, n) => { const [y, m, d] = iso.split("-").map(Number); return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10); };
+  const etichettaGiorno = (iso) => { const [, m, d] = iso.split("-").map(Number); return `${GG_LUNGO[dowDi(iso)]} ${d} ${MESI[m - 1]}`; };
+  const fmt = () => L && L.format.find((f) => f.chiave === S.format);
+  const fasce = (f, dow) => (f.fasce_per_giorno && f.fasce_per_giorno[dow]) || f.fasce;
+  const packPerGiorno = (f) => f.pack.length && f.pack.some((p) => p.giorni);
+
+  // Il pack in vigore: quello che il giorno impone, o quello scelto.
+  function packAttivo(f) {
+    if (!f.pack.length) return null;
+    if (packPerGiorno(f)) return S.giorno ? f.pack.find((p) => p.giorni && p.giorni.includes(dowDi(S.giorno))) || null : null;
+    return f.pack.find((p) => p.chiave === S.pack) || f.pack[0];
+  }
+  function prezzoPersona(f) {
+    const p = packAttivo(f);
+    return p ? p.prezzo_persona : f.prezzo_persona;
+  }
+
+  // ---------- CARD ----------
+  function quandoTesto(f) {
+    const ug = (a) => a.length === f.giorni.length && a.every((x) => f.giorni.includes(x));
+    const giorni = f.giorni.length === 7 ? "tutti i giorni" : ug([1, 2, 3, 4, 5]) ? "lun-ven" : ug([6, 0]) ? "sab e dom" : f.giorni.map((d) => GG[d]).join(", ");
+    const da = Math.min(...[f.fasce, ...Object.values(f.fasce_per_giorno || {})].flat().map((x) => x.da));
+    return `${giorni}, dalle ${hhmm(da)}`;
+  }
+  // Mai il prezzo secco (Saverio 17/11): "a partire da", il conto dipende dalle scelte.
+  const prezzoCard = (f) => f.prezzo_da != null ? `a partire da ${f.prezzo_da} €` : esc(maiusc(f.prezzo));
+  function disegnaFormati() {
+    const box = $("formati");
+    box.innerHTML = "";
+    for (const [porta, titolo] of [["tavolo", "Un tavolo"], ["festa", "Feste, lauree e gruppi"]]) {
+      box.insertAdjacentHTML("beforeend", `<div class="gruppo">${titolo}</div>`);
+      const griglia = document.createElement("div");
+      griglia.className = "formati";
+      for (const f of L.format.filter((x) => x.porta === porta)) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "fmt";
+        b.innerHTML = `<img src="img/${esc(f.chiave)}.jpg" alt="" loading="lazy"><span><span class="n">${esc(f.nome)}</span><span class="q">${quandoTesto(f)}${f.min_persone > 1 ? ` · min ${f.min_persone}` : ""}</span><span class="p">${prezzoCard(f)}</span></span><span class="freccia" aria-hidden="true">›</span>`;
+        b.addEventListener("click", () => scegliFormat(f.chiave, true));
+        griglia.appendChild(b);
+      }
+      box.appendChild(griglia);
+    }
+  }
+
+  // ---------- SCHEDA ----------
+  const faqHtml = (lista) => lista.map((q) => `<details><summary>${esc(q.d)}</summary><p>${esc(q.r)}</p></details>`).join("");
+  function disegnaScheda() {
+    const f = fmt();
+    const box = $("scheda");
+    if (!f) { box.innerHTML = ""; return; }
+    const pa = packAttivo(f);
+    const prezzo = f.prezzo_da != null
+      ? `<div class="prezzo-grande"><span>a partire da</span><b>${f.prezzo_da} €</b><span>a persona</span></div>`
+      : `<div class="prezzo-grande"><b style="font-size:24px">${esc(maiusc(f.prezzo))}</b></div>`;
+    let packs = "";
+    if (f.pack.length) {
+      const fisso = packPerGiorno(f);
+      packs = `<h4>${fisso ? "Il prezzo cambia col giorno" : "Scegli il pack"}</h4><div class="packs" role="radiogroup" aria-label="Pack">` +
+        f.pack.map((p) => {
+          const on = pa && pa.chiave === p.chiave;
+          const spento = fisso && S.giorno && !on;
+          return `<button type="button" role="radio" class="pack${fisso ? " fisso" : ""}${spento ? " spento" : ""}" data-pack="${esc(p.chiave)}" aria-checked="${on}"${fisso ? ' tabindex="-1"' : ""}><span class="pallino"></span><span>${esc(p.nome)}<small>${esc(p.descrizione)}</small></span><span class="pz">${p.prezzo_persona != null ? p.prezzo_persona + " €" : ""}</span></button>`;
+        }).join("") + `</div>`;
+    }
+    const faq = [...f.faq, ...(f.porta === "festa" ? L.faq_feste.filter((q) => !f.faq.some((x) => x.d === q.d)) : [])];
+    box.innerHTML = `<div class="scheda">
+      <div class="foto"><img src="img/${esc(f.chiave)}.jpg" alt=""><div class="titolo"><h3>${esc(f.nome)}</h3></div></div>
+      <div class="corpo">
+        ${prezzo}
+        <p class="desc">${esc(f.descrizione)}${f.min_persone > 1 && !/minimo/i.test(f.descrizione) ?` Minimo ${f.min_persone} persone.` : ""}</p>
+        <h4>Cosa comprende</h4>
+        <ul class="comprende">${f.comprende.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>
+        ${packs}
+        ${faq.length ? `<h4>Domande frequenti</h4><div class="faq">${faqHtml(faq)}</div>` : ""}
+      </div>
+    </div>
+    <button type="button" class="cambia" id="cambia">‹ Cambia momento</button>`;
+    box.querySelectorAll(".pack:not(.fisso)").forEach((b) => b.addEventListener("click", () => { S.pack = b.dataset.pack; disegnaScheda(); riepilogo(); }));
+    $("cambia").addEventListener("click", () => {
+      S.format = null;
+      $("formati").classList.remove("scelto");
+      box.innerHTML = "";
+      $("format-sotto").classList.remove("nascosto");
+      ["passo-quando", "passo-extra", "passo-conferma"].forEach((id) => $(id).classList.add("nascosto"));
+      $("passo-format").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
+  function scegliFormat(k, scorri) {
+    const f = L.format.find((x) => x.chiave === k);
+    if (!f) return;
+    if (S.format !== k) S.pack = null;
+    S.format = k;
+    $("formati").classList.add("scelto");
+    $("format-sotto").classList.add("nascosto");
+    S.persone = Math.min(Math.max(S.persone, f.min_persone), f.max_persone);
+    $("extra-bambini").classList.toggle("nascosto", !f.extra.includes("bambini"));
+    $("extra-torta").classList.toggle("nascosto", !f.extra.includes("torta"));
+    $("extra-occasione").classList.toggle("nascosto", f.porta !== "festa");
+    if (!f.extra.includes("bambini")) { S.bambini = { fino2: 0, fino8: 0, fino12: 0 }; aggiornaBambini(); }
+    if (!f.extra.includes("torta")) document.querySelector('input[name="torta"][value=""]').checked = true;
+    $("extra-elenco").textContent = [f.extra.includes("bambini") && "bambini", f.extra.includes("torta") && "torta", f.porta === "festa" && "occasione", "una nota per la sala"].filter(Boolean).join(", ");
+    ["passo-quando", "passo-extra", "passo-conferma"].forEach((id) => $(id).classList.remove("nascosto"));
+    if (S.giorno && !f.giorni.includes(dowDi(S.giorno))) S.giorno = null;
+    disegnaScheda();
+    disegnaGiorni();
+    aggiornaPersone();
+    if (scorri) $("passo-format").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // ---------- GIORNI E ORE ----------
+  function slotDelGiorno(f, iso) {
+    const dow = dowDi(iso);
+    if (!f.giorni.includes(dow)) return [];
+    const r = oraRoma();
+    const limite = iso === r.giorno ? r.min + 20 : -1;
+    const out = [];
+    for (const fa of fasce(f, dow)) {
+      for (let m = fa.da; m <= fa.a; m += 30) if (m > limite) out.push(m);
+      if ((fa.a - fa.da) % 30 !== 0 && fa.a > limite && !out.includes(fa.a)) out.push(fa.a);
+    }
+    return out.sort((a, b) => a - b);
+  }
+  function disegnaGiorni() {
+    const f = fmt();
+    const box = $("giorni");
+    box.innerHTML = "";
+    const oggi = oraRoma().giorno;
+    let n = 0;
+    for (let i = 0; i < 28 && n < 14; i++) {
+      const iso = isoPiu(oggi, i);
+      if (!slotDelGiorno(f, iso).length) continue;
+      n++;
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip";
+      b.dataset.g = iso;
+      const d = Number(iso.slice(8));
+      b.innerHTML = `<small>${i === 0 ? "oggi" : i === 1 ? "domani" : GG[dowDi(iso)]}</small><b>${d}</b>`;
+      b.setAttribute("aria-label", etichettaGiorno(iso));
+      b.setAttribute("aria-pressed", String(iso === S.giorno));
+      b.addEventListener("click", () => scegliGiorno(iso));
+      box.appendChild(b);
+    }
+    $("giorni-nota").textContent = f.giorni.length === 7 ? "Scegli il giorno." : `${f.nome}: ${quandoTesto(f).split(",")[0]}.`;
+    $("altra-data").min = oggi;
+    $("altra-data").max = isoPiu(oggi, L.max_giorni_avanti);
+    if (S.giorno) scegliGiorno(S.giorno); else { $("blocco-ore").classList.add("nascosto"); S.ora = null; riepilogo(); }
+  }
+  function scegliGiorno(iso) {
+    const f = fmt();
+    const av = $("avviso-giorno");
+    const slot = slotDelGiorno(f, iso);
+    if (!f.giorni.includes(dowDi(iso)) || !slot.length) {
+      av.textContent = !f.giorni.includes(dowDi(iso)) ? `${f.nome} di ${GG_LUNGO[dowDi(iso)]} non c'è: scegli un altro giorno.` : "Per oggi è tardi per questo format: scegli un altro giorno.";
+      av.classList.remove("nascosto");
+      return;
+    }
+    av.classList.add("nascosto");
+    S.giorno = iso;
+    document.querySelectorAll("#giorni .chip").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.g === iso)));
+    $("altra-data").value = document.querySelector(`#giorni .chip[data-g="${iso}"]`) ? "" : iso;
+    if (S.ora && !slot.includes(minuti(S.ora))) S.ora = null;
+    const box = $("ore");
+    box.innerHTML = "";
+    for (const m of slot) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip";
+      b.dataset.o = hhmm(m);
+      b.innerHTML = `<b>${hhmm(m)}</b>`;
+      b.setAttribute("aria-pressed", String(S.ora === hhmm(m)));
+      b.addEventListener("click", () => { S.ora = hhmm(m); box.querySelectorAll(".chip").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.o === S.ora))); riepilogo(); });
+      box.appendChild(b);
+    }
+    $("blocco-ore").classList.remove("nascosto");
+    const nota = { aperitivo: "Il buffet va fino alle 20:30: meglio arrivare entro le 19.", "brindisi-laurea": "Chiamateci 20 minuti prima di arrivare, così il buffet arriva fresco.", dopocena: "Conviene arrivare entro le 23." }[f.chiave];
+    $("nota-ora").textContent = nota || "";
+    $("nota-ora").classList.toggle("nascosto", !nota);
+    if (packPerGiorno(f)) disegnaScheda(); // il prezzo segue il giorno
+    riepilogo();
+  }
+  $("altra-data").addEventListener("change", (e) => { if (e.target.value && S.format) scegliGiorno(e.target.value); });
+
+  // ---------- PERSONE ----------
+  function aggiornaPersone() {
+    const f = fmt();
+    $("persone").textContent = S.persone;
+    $("meno").disabled = S.persone <= f.min_persone;
+    $("piu").disabled = S.persone >= f.max_persone;
+    $("persone-nota").textContent = f.min_persone > 1 ? `Minimo ${f.min_persone} persone, fino a ${f.max_persone}.` : `Fino a ${f.max_persone} da qui. Siete di più? Chiamaci.`;
+    if (S.bambini.fino2 + S.bambini.fino8 + S.bambini.fino12 >= S.persone) { S.bambini = { fino2: 0, fino8: 0, fino12: 0 }; }
+    aggiornaBambini();
+    riepilogo();
+  }
+  $("meno").addEventListener("click", () => { S.persone--; aggiornaPersone(); });
+  $("piu").addEventListener("click", () => { S.persone++; aggiornaPersone(); });
+  function aggiornaBambini() {
+    const tot = S.bambini.fino2 + S.bambini.fino8 + S.bambini.fino12;
+    document.querySelectorAll("[data-b]").forEach((c) => {
+      const k = c.dataset.b;
+      c.querySelector("output").textContent = S.bambini[k];
+      const [meno, piu] = c.querySelectorAll("button");
+      meno.disabled = S.bambini[k] <= 0;
+      piu.disabled = tot >= S.persone - 1;
+    });
+  }
+  document.querySelectorAll("[data-b]").forEach((c) => {
+    const k = c.dataset.b;
+    const [meno, piu] = c.querySelectorAll("button");
+    meno.addEventListener("click", () => { S.bambini[k] = Math.max(0, S.bambini[k] - 1); aggiornaBambini(); riepilogo(); });
+    piu.addEventListener("click", () => { S.bambini[k]++; aggiornaBambini(); riepilogo(); });
+  });
+  document.querySelectorAll('input[name="torta"]').forEach((r) => r.addEventListener("change", riepilogo));
+  $("occasione").addEventListener("change", riepilogo);
+  $("apri-extra").addEventListener("click", () => {
+    const ora = $("extra-corpo").classList.toggle("nascosto") === false;
+    $("apri-extra").setAttribute("aria-expanded", String(ora));
+    $("apri-extra").querySelector("b").textContent = ora ? "− Chiudi gli extra" : "+ Aggiungi un extra";
+  });
+
+  // ---------- RIEPILOGO ----------
+  const torta = () => document.querySelector('input[name="torta"]:checked').value;
+  function stima() {
+    const f = fmt();
+    const pp = prezzoPersona(f);
+    if (pp == null) return null;
+    const nb = S.bambini.fino2 + S.bambini.fino8 + S.bambini.fino12;
+    let t = (S.persone - nb) * pp;
+    if (L.bambini_brunch) t += S.bambini.fino2 * L.bambini_brunch.fino2 + S.bambini.fino8 * L.bambini_brunch.fino8 + S.bambini.fino12 * L.bambini_brunch.fino12;
+    if (torta()) t += S.persone * L.torta[torta()];
+    return t;
+  }
+  function riepilogo() {
+    const f = fmt();
+    if (!f) return;
+    const pa = packAttivo(f);
+    $("r-titolo").textContent = pa && !packPerGiorno(f) ? pa.nome : f.nome;
+    $("r-quando").textContent = S.giorno && S.ora ? `${maiusc(etichettaGiorno(S.giorno))}, ore ${S.ora} · ${S.persone} ${S.persone === 1 ? "persona" : "persone"}` : "Manca ancora il giorno o l'ora.";
+    const nb = S.bambini.fino2 + S.bambini.fino8 + S.bambini.fino12;
+    $("r-extra").textContent = [nb ? `di cui ${nb} ${nb === 1 ? "bambino" : "bambini"}` : "", torta() === "casa" ? "torta della casa" : torta() === "esterna" ? "torta portata da voi" : "", $("occasione").value].filter(Boolean).join(" · ");
+    const pp = prezzoPersona(f);
+    const s = stima();
+    $("r-stima").textContent = s != null ? `${pp} € a persona · indicativamente ${s} € in tutto, si paga al locale.`
+      : packPerGiorno(f) ? "Il prezzo dipende dal giorno: sceglilo qui sopra."
+      : f.prezzo === "alla carta" ? "Alla carta: si paga quello che si ordina." : `${maiusc(f.prezzo)}.`;
+  }
+
+  // ---------- INVIO ----------
+  const ERRORI = {
+    cognome: "Ci serve il cognome.", nome: "Il nome è troppo lungo.", cellulare: "Il numero di cellulare non torna: controllalo.",
+    persone: "Il numero di persone non torna.", data: "Manca il giorno o l'ora.", orario: "Quell'orario non è prenotabile per questo format.",
+    giorno: "Questo format quel giorno non c'è.", passato: "Quell'orario è già passato.", troppe: "Hai già fatto qualche prenotazione nell'ultima ora: chiamaci allo 06-5740009.",
+    format: "Scegli un format.", pack: "Scegli un pack.", locale: "Qualcosa non va: chiamaci allo 06-5740009.", bambini: "I bambini non tornano col numero di persone.",
+  };
+  $("modulo").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const err = $("errore");
+    err.classList.add("nascosto");
+    const mostra = (t) => { err.textContent = t; err.classList.remove("nascosto"); };
+    const f = fmt();
+    const cognome = $("cognome").value.trim(), nome = $("nome").value.trim(), cell = $("cellulare").value.trim();
+    if (cognome.length < 2) { $("cognome").focus(); return mostra("Ci serve il cognome, lassù in cima."); }
+    if (cell.replace(/\D/g, "").length < 8) { $("cellulare").focus(); return mostra("Il numero di cellulare non torna: controllalo, lassù in cima."); }
+    if (!f) return mostra("Scegli prima il format.");
+    if (!S.giorno || !S.ora) return mostra("Manca il giorno o l'ora.");
+    const nb = S.bambini.fino2 + S.bambini.fino8 + S.bambini.fino12;
+    const pa = packAttivo(f);
+    const corpo = {
+      locale: LOCALE, format: f.chiave, pack: pa ? pa.chiave : null, giorno: S.giorno, ora: S.ora, persone: S.persone,
+      nome, cognome, cellulare: cell, email: $("email").value.trim(), nota: $("nota").value.trim(),
+      occasione: $("occasione").value, torta: torta() || null, bambini: nb ? S.bambini : null,
+      da: DA, lingua: "it", sito: $("sito").value, ms_compilazione: Date.now() - aperto,
+    };
+    const vai = $("vai");
+    vai.disabled = true;
+    vai.textContent = "Un attimo…";
+    const ctl = new AbortController();
+    const timer = setTimeout(() => ctl.abort(), 15000);
+    try {
+      const r = await fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(corpo), signal: ctl.signal });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || !j.ok) {
+        let t = ERRORI[j.errore] || "Non siamo riusciti a registrare la prenotazione. Riprova o chiamaci allo 06-5740009.";
+        if (j.errore === "minimo") t = `Per ${f.nome} servono almeno ${j.minimo} persone.`;
+        if (j.errore === "massimo") t = `Da qui si arriva a ${j.massimo} persone: per un gruppo più grande chiamaci.`;
+        throw new Error(t);
+      }
+      fatto(j, f);
+    } catch (x) {
+      mostra(x.name === "AbortError" ? "La rete non risponde. Riprova tra un attimo o chiamaci allo 06-5740009." : x.message);
+      vai.disabled = false;
+      vai.textContent = "Conferma la prenotazione";
+    } finally {
+      clearTimeout(timer);
+    }
+  });
+
+  function fatto(j, f) {
+    $("modulo").classList.add("nascosto");
+    const box = $("fatto");
+    if (j.gia_prenotato) {
+      box.innerHTML = `<h2>Ci sei già.</h2><p class="sotto">Per quel giorno risulta già una prenotazione a questo numero. Se vuoi cambiare qualcosa chiamaci allo <a href="tel:+39065740009">06-5740009</a>.</p>`;
+    } else {
+      const extra = $("r-extra").textContent;
+      box.innerHTML = `<h2>Fatto. Ti aspettiamo.</h2>
+        <p class="sotto">La prenotazione è confermata, non devi fare altro.</p>
+        <div class="box">
+          <p><b>${esc($("r-titolo").textContent)}</b></p>
+          <p>${esc($("r-quando").textContent)}</p>
+          ${extra ? `<p style="color:var(--muto)">${esc(extra)}</p>` : ""}
+          <p style="color:var(--muto)">${esc($("r-stima").textContent)}</p>
+          <p style="color:var(--muto)">A nome ${esc($("nome").value.trim())} ${esc($("cognome").value.trim())}</p>
+        </div>
+        <p class="sotto">Via Ostiense 182/a. Metro B Garbatella o Basilica San Paolo, l'autobus ferma davanti. Se cambia qualcosa: <a href="tel:+39065740009">06-5740009</a>.</p>
+        ${f.chiave === "brindisi-laurea" ? `<p class="sotto">Il giorno della laurea chiamateci 20 minuti prima di arrivare: il buffet arriva fresco.</p>` : ""}`;
+    }
+    box.classList.remove("nascosto");
+    window.scrollTo({ top: box.offsetTop - 20, behavior: "smooth" });
+  }
+
+  // ---------- AVVIO ----------
+  fetch(`${API}?locale=${LOCALE}`)
+    .then((r) => r.json())
+    .then((j) => {
+      if (!j.ok) throw new Error();
+      L = j;
+      disegnaFormati();
+      $("faq-comuni").innerHTML = `<h2>Domande frequenti</h2>${faqHtml(L.faq_comuni)}`;
+      const p = Number(qs.get("persone"));
+      if (p > 0) S.persone = p;
+      const k = qs.get("format");
+      if (k && L.format.some((f) => f.chiave === k)) {
+        if (qs.get("pack")) S.pack = qs.get("pack");
+        scegliFormat(k, false);
+        const g = qs.get("giorno");
+        if (g && /^\d{4}-\d{2}-\d{2}$/.test(g)) scegliGiorno(g);
+      }
+    })
+    .catch(() => {
+      $("formati").innerHTML = `<p class="errore">La prenotazione online non risponde in questo momento. Chiamaci allo <a href="tel:+39065740009" style="color:inherit">06-5740009</a> o al 333-3658561.</p>`;
+    });
+})();
+</script>
+</body>
+</html>
